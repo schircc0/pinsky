@@ -19,14 +19,14 @@ p_cable = 0.5
 
 
 # set more params
-i_soma = 1
+i_soma = 50
 i_dend = 0
 g_cable = 2.1
 dt = 0.05
 
 
 # generate state dict
-states = {'t':np.linspace(1, 50, 1000)}
+states = {'t' : np.linspace(1, 50, 1000)}
 states['vm_soma'] = [-4.6]
 states['vm_dend'] = [-4.5]
 states['h'] = [0.999]
@@ -41,7 +41,8 @@ for i in range(len(states['t'])):
     # equations for cal the current
     i_leak_s = g_leak_max * (states['vm_soma'][i] - e_leak)
     i_leak_d = g_leak_max * (states['vm_dend'][i] - e_leak)
-    i_na = g_na_max * (1 ** 2) * states['h'][i] * (states['vm_soma'][i] - e_na)  # here the m == 1
+    m_inf = a_m(states['vm_soma'][i]) / (a_m(states['vm_soma'][i]) + b_m(states['vm_soma'][i]))
+    i_na = g_na_max * (m_inf ** 2) * states['h'][i] * (states['vm_soma'][i] - e_na)
     i_kdr = g_kdr_max * states['n'][i] * (states['vm_soma'][i] - e_k)
     i_ca = g_ca_max * (states['s'][i] ** 2) * (states['vm_dend'][i] - e_ca)
     i_kc = g_kc_max * states['c'][i] * states['ca'][i] * (states['vm_dend'][i] - e_k)
@@ -73,22 +74,22 @@ for i in range(len(states['t'])):
 
 plt.figure(dpi=200)
 plt.subplot(8,1,1)
-plt.plot(states['vm_soma'])
+plt.plot(states['t'], states['vm_soma'][1:])
 plt.subplot(8,1,2)
-plt.plot(states['vm_dend'])
+plt.plot(states['t'], states['vm_dend'][1:])
 plt.subplot(8,1,3)
-plt.plot(states['h'])
+plt.plot(states['t'], states['h'][1:])
 plt.subplot(8,1,4)
-plt.plot(states['n'])
+plt.plot(states['t'], states['n'][1:])
 plt.subplot(8,1,5)
-plt.plot(states['s'])
+plt.plot(states['t'], states['s'][1:])
 plt.subplot(8,1,6)
-plt.plot(states['c'])
+plt.plot(states['t'], states['c'][1:])
 plt.subplot(8,1,7)
-plt.plot(states['q'])
+plt.plot(states['t'], states['q'][1:])
 plt.subplot(8,1,8)
-plt.plot(states['ca'])
-
+plt.plot(states['t'], states['ca'][1:])
+plt.show()
 
 
 

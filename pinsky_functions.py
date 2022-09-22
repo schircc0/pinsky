@@ -11,15 +11,15 @@ def b_h(v):
 
 
 def a_m(v):
-    return 0.32 * (13.1-v) / np.exp((13.1-v) / 4 - 1)
+    return 0.32 * (13.1-v) / (np.exp((13.1-v) / 4) - 1)
 
 
 def b_m(v):
-    return 0.28 * (v-40.1) / np.exp((v-40.1) / 5 - 1)
+    return 0.28 * (v-40.1) / (np.exp((v-40.1) / 5) - 1)
 
 
 def a_n(v):
-    return 0.016 * (35.1-v) / np.exp((35.1-v) / 5 - 1)
+    return 0.016 * (35.1-v) / (np.exp((35.1-v) / 5) - 1)
 
 
 def b_n(v):
