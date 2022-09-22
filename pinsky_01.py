@@ -26,7 +26,7 @@ dt = 0.05
 
 
 # generate state dict
-states = {'t' : np.linspace(1, 50, 1000)}
+states = {'t' : np.linspace(1, 500, 10000)}
 states['vm_soma'] = [-4.6]
 states['vm_dend'] = [-4.5]
 states['h'] = [0.999]
