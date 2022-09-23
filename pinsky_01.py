@@ -24,7 +24,7 @@ g_cable = 2.1
 dt = 0.05
 
 # generate state dict
-states = {'t': np.linspace(1, 100, 2000), 'vm_soma': [-4.6], 'vm_dend': [-4.5], 'h': [0.999], 'n': [0.001],
+states = {'t': np.linspace(1, 1000, 20000), 'vm_soma': [-4.6], 'vm_dend': [-4.5], 'h': [0.999], 'n': [0.001],
           's': [0.009], 'c': [0.007], 'q': [0.01], 'ca': [0.2]}
 
 for i in range(len(states['t'])):
@@ -35,7 +35,7 @@ for i in range(len(states['t'])):
     i_na = g_na_max * (m_inf ** 2) * states['h'][i] * (states['vm_soma'][i] - e_na)
     i_kdr = g_kdr_max * states['n'][i] * (states['vm_soma'][i] - e_k)
     i_ca = g_ca_max * (states['s'][i] ** 2) * (states['vm_dend'][i] - e_ca)
-    i_kc = g_kc_max * states['c'][i] * states['ca'][i] * (states['vm_dend'][i] - e_k)
+    i_kc = g_kc_max * states['c'][i] * min(states['ca'][i] / 250, 1) * (states['vm_dend'][i] - e_k)
     i_kahp = g_kahp_max * states['q'][i] * (states['vm_dend'][i] - e_k)
 
     # cal the derivatives
