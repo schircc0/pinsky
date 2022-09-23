@@ -18,13 +18,13 @@ c_m = 3.
 p_cable = 0.5
 
 # set more params
-i_soma = 5.
+i_soma = 1.
 i_dend = 0.
 g_cable = 2.1
 dt = 0.05
 
 # generate state dict
-states = {'t': np.linspace(1, 1000, 20000), 'vm_soma': [-4.6], 'vm_dend': [-4.5], 'h': [0.999], 'n': [0.001],
+states = {'t': np.linspace(1, 100, 2000), 'vm_soma': [-4.6], 'vm_dend': [-4.5], 'h': [0.999], 'n': [0.001],
           's': [0.009], 'c': [0.007], 'q': [0.01], 'ca': [0.2]}
 
 for i in range(len(states['t'])):
@@ -35,14 +35,14 @@ for i in range(len(states['t'])):
     i_na = g_na_max * (m_inf ** 2) * states['h'][i] * (states['vm_soma'][i] - e_na)
     i_kdr = g_kdr_max * states['n'][i] * (states['vm_soma'][i] - e_k)
     i_ca = g_ca_max * (states['s'][i] ** 2) * (states['vm_dend'][i] - e_ca)
-    i_kc = g_kc_max * states['c'][i] * states['ca'][i] * (states['vm_dend'][i] - e_k)
+    i_kc = g_kc_max * states['c'][i] * min(states['ca'][i], 1) * (states['vm_dend'][i] - e_k)
     i_kahp = g_kahp_max * states['q'][i] * (states['vm_dend'][i] - e_k)
 
     # cal the next step
-    y_k1 = np.array([states['vm_soma'][i], states['vm_dend'][i], states['h'][i], states['n'][i], states['s'][i], states['c'][i],
-           states['q'][i], states['ca'][i]])
+    y_k1 = np.array([states['vm_soma'][i], states['vm_dend'][i], states['h'][i], states['n'][i], states['s'][i],
+                     states['c'][i], states['q'][i], states['ca'][i]])
     d_y_k1 = get_diff(i_leak_s, i_leak_d, i_na, i_kdr, i_ca, i_kc, i_kahp, y_k1[0], y_k1[1], y_k1[2], y_k1[3], y_k1[4],
-                     y_k1[5], y_k1[6], y_k1[7], g_cable, p_cable,i_soma, i_dend, c_m)
+                      y_k1[5], y_k1[6], y_k1[7], g_cable, p_cable,i_soma, i_dend, c_m)
     y_k2 = y_k1 + (d_y_k1 * dt / 2)
     d_y_k2 = get_diff(i_leak_s, i_leak_d, i_na, i_kdr, i_ca, i_kc, i_kahp, y_k2[0], y_k2[1], y_k2[2], y_k2[3], y_k2[4],
                       y_k2[5], y_k2[6], y_k2[7], g_cable, p_cable,i_soma, i_dend, c_m)

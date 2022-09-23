@@ -31,7 +31,7 @@ def a_s(v):
 
 
 def b_s(v):
-    return (0.02 * (v-51.1)) / (np.exp((v-51.1) / 5.) - 1.)
+    return 0.02 * (v-51.1) / (np.exp((v-51.1) / 5.) - 1.)
 
 
 def a_c(v):
