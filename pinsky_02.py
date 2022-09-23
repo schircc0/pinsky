@@ -1,5 +1,5 @@
 __author__ = 'kuo xiao, derived from Pinsky et al 1994 and Gabbiani prsolve.m'
-# here uses the euler method for estimate the solution for equations
+# here uses the runge-kutta 4 method for estimate the solution for equations
 
 from pinsky_functions import *
 
@@ -38,18 +38,18 @@ for i in range(len(states['t'])):
     i_kc = g_kc_max * states['c'][i] * states['ca'][i] * (states['vm_dend'][i] - e_k)
     i_kahp = g_kahp_max * states['q'][i] * (states['vm_dend'][i] - e_k)
 
-    # cal the derivatives
-    d_vm_soma = (-i_leak_s - i_na - i_kdr + (g_cable / p_cable) *
-                 (states['vm_dend'][i] - states['vm_soma'][i]) + i_soma / p_cable) / c_m
-    d_vm_dend = (-i_leak_d - i_ca - i_kahp - i_kc +
-                 (g_cable / (1-p_cable)) * (states['vm_soma'][i] - states['vm_dend'][i]) +
-                 i_dend / (1-p_cable)) / c_m
-    d_h = a_h(states['vm_soma'][i]) * (1 - states['h'][i]) - b_h(states['vm_soma'][i]) * states['h'][i]
-    d_n = a_n(states['vm_soma'][i]) * (1 - states['n'][i]) - b_n(states['vm_soma'][i]) * states['n'][i]
-    d_s = a_s(states['vm_dend'][i]) * (1 - states['s'][i]) - b_s(states['vm_dend'][i]) * states['s'][i]
-    d_c = a_c(states['vm_dend'][i]) * (1 - states['c'][i]) - b_c(states['vm_dend'][i]) * states['c'][i]
-    d_q = a_q(states['ca'][i]) * (1 - states['q'][i]) - b_q(states['ca'][i]) * states['q'][i]
-    d_ca = -0.13 * i_ca - 0.075 * states['ca'][i]
+    # cal the k1
+    d_k1 = get_diff(i_leak_s, i_leak_d, i_na, i_kdr, i_ca, i_kc, i_kahp, states['vm_soma'][i], states['vm_dend'][i],
+                    states['h'][i], states['n'][i], states['s'][i], states['c'][i], states['q'][i], states['ca'][i],
+                    g_cable, p_cable,i_soma, i_dend, c_m)
+
+    d_k2 =
+
+
+
+
+
+
 
     # update the states
     states['vm_soma'].append(states['vm_soma'][-1] + d_vm_soma * dt)
