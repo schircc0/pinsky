@@ -24,7 +24,7 @@ g_cable = 2.1
 dt = 0.05
 
 # generate state dict
-states = {'t': np.linspace(1, 1000, 20000), 'vm_soma': [-4.6], 'vm_dend': [-4.5], 'h': [0.999], 'n': [0.001],
+states = {'t': np.linspace(1, 50, 1000), 'vm_soma': [-4.6], 'vm_dend': [-4.5], 'h': [0.999], 'n': [0.001],
           's': [0.009], 'c': [0.007], 'q': [0.01], 'ca': [0.2]}
 
 for i in range(len(states['t'])):
